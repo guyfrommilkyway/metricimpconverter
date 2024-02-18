@@ -31,6 +31,27 @@ function ConvertHandler() {
 
 	this.getReturnUnit = function (initUnit) {
 		let result;
+		const unit = initUnit.match(UNIT_REGEX);
+
+		switch (unit) {
+			case 'km':
+				result = 'mi';
+				break;
+			case 'mi':
+				result = 'km';
+				break;
+			case 'l':
+				result = 'gal';
+				break;
+			case 'gal':
+				result = 'L';
+				break;
+			case 'kg':
+				result = 'lbs';
+				break;
+			default:
+				result = 'invalid unit';
+		}
 
 		return result;
 	};
