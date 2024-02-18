@@ -1,8 +1,12 @@
 function ConvertHandler() {
 	this.getNum = function (input) {
+		const slashCount = (input.match(/\//g) || []).length;
+
+		if (slashCount > 1) return 'double-fraction';
+
 		const nums = input.match(/\d+(\.\d+)?\/\d+(\.\d+)?|\d+(\.\d+)?/g);
 
-		let result = +nums.join('.');
+		let result = nums ? nums.join('.') : 1;
 
 		return result;
 	};
