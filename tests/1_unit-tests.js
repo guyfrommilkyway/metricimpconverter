@@ -52,5 +52,14 @@ suite('Unit Tests', function () {
 			assert.equal(convertHandler.getNum('12/40/50kg'), 'double-fraction');
 			assert.equal(convertHandler.getNum('12/40/50lbs'), 'double-fraction');
 		});
+
+		test('Should correctly default to a numerical input of 1 when no numerical input is provided', function () {
+			assert.equal(convertHandler.getNum('km'), 1);
+			assert.equal(convertHandler.getNum('mi'), 1);
+			assert.equal(convertHandler.getNum('L'), 1);
+			assert.equal(convertHandler.getNum('gal'), 1);
+			assert.equal(convertHandler.getNum('kg'), 1);
+			assert.equal(convertHandler.getNum('lbs'), 1);
+		});
 	});
 });
