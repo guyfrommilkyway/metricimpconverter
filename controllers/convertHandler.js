@@ -1,14 +1,27 @@
+const calc = require('../utils/calc');
+
+// constants
+const UNIT_REGEX = /(km|mi|l|gal|kg|lbs)$/;
+
 function ConvertHandler() {
 	this.getNum = function (input) {
-		const slashCount = (input.match(/\//g) || []).length;
+		const str = input.toLowerCase();
+		const slash = (str.match(/\//g) || []).length;
 
-		if (slashCount > 1) return 'double-fraction';
+		// detect double-fraction
+		if (slash > 1) return 'double-fraction';
 
-		const nums = input.match(/\d+(\.\d+)?\/\d+(\.\d+)?|\d+(\.\d+)?/g);
+		const unit = str.match(UNIT_REGEX)?.[0];
 
-		let result = nums ? nums.join('.') : 1;
+		// detect invalid unit
+		if (!unit) return 'invalid unit';
 
-		return result;
+		const nums = str.split(unit)[0].split('/');
+		const num = nums[0] === '' ? 1 : +nums[0];
+
+		if (nums.length === 1 && !isNaN(num)) return num;
+		if (nums.length === 1 && isNaN(num)) return 'invalid number';
+		if (nums.length > 1) return parseFloat((nums[0] / nums[1]).toFixed(5));
 	};
 
 	this.getUnit = function (input) {
