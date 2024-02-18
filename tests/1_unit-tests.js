@@ -5,7 +5,7 @@ const ConvertHandler = require('../controllers/convertHandler.js');
 let convertHandler = new ConvertHandler();
 
 suite('Unit Tests', function () {
-	suite('Reading input', function () {
+	suite('Reading number input', function () {
 		test('Should correctly read a whole number input', function () {
 			assert.equal(convertHandler.getNum('12kg'), 12);
 			assert.equal(convertHandler.getNum('100lbs'), 100);
@@ -22,6 +22,24 @@ suite('Unit Tests', function () {
 			assert.equal(convertHandler.getNum('1.12L'), 1.12);
 			assert.equal(convertHandler.getNum('40.5km'), 40.5);
 			assert.equal(convertHandler.getNum('1.8mi'), 1.8);
+		});
+
+		test('Should correctly read a fractional input', function () {
+			assert.equal(convertHandler.getNum('12/40kg'), '12/40');
+			assert.equal(convertHandler.getNum('100/200lbs'), '100/200');
+			assert.equal(convertHandler.getNum('4/8gal'), '4/8');
+			assert.equal(convertHandler.getNum('1/2L'), '1/2');
+			assert.equal(convertHandler.getNum('40/100km'), '40/100');
+			assert.equal(convertHandler.getNum('1/4mi'), '1/4');
+		});
+
+		test('Should correctly read a fractional input with a decimal', function () {
+			assert.equal(convertHandler.getNum('12.1/40.50kg'), '12.1/40.50');
+			assert.equal(convertHandler.getNum('100.50/200.15lbs'), '100.50/200.15');
+			assert.equal(convertHandler.getNum('4.4/8.1gal'), '4.4/8.1');
+			assert.equal(convertHandler.getNum('1.12/4.40L'), '1.12/4.40');
+			assert.equal(convertHandler.getNum('40.5/5.78km'), '40.5/5.78');
+			assert.equal(convertHandler.getNum('1.8/7.1mi'), '1.8/7.1');
 		});
 	});
 });
