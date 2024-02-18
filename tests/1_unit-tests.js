@@ -42,4 +42,15 @@ suite('Unit Tests', function () {
 			assert.equal(convertHandler.getNum('1.8/7.1mi'), '1.8/7.1');
 		});
 	});
+
+	suite('Handling default value and errors', function () {
+		test('Should correctly return an error on a double-fraction', function () {
+			assert.equal(convertHandler.getNum('12/40/50km'), 'double-fraction');
+			assert.equal(convertHandler.getNum('12/40/50mi'), 'double-fraction');
+			assert.equal(convertHandler.getNum('12/40/50L'), 'double-fraction');
+			assert.equal(convertHandler.getNum('12/40/50gal'), 'double-fraction');
+			assert.equal(convertHandler.getNum('12/40/50kg'), 'double-fraction');
+			assert.equal(convertHandler.getNum('12/40/50lbs'), 'double-fraction');
+		});
+	});
 });
