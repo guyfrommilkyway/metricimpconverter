@@ -25,9 +25,8 @@ function ConvertHandler() {
 	};
 
 	this.getUnit = function (input) {
-		let result;
-
-		return result;
+		let result = input.match(UNIT_REGEX);
+		return result ?? 'invalid unit';
 	};
 
 	this.getReturnUnit = function (initUnit) {
