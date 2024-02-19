@@ -1,136 +1,106 @@
 const { calcMultiply, calcDivide } = require('../utils/calc');
 
-// constants
-const INVALID_FRACTION = /\d+(\.\d*)?\/\d+(\.\d*)?\/\d+(\.\d*)?/;
-const VALID_UNIT = /(km|mi|l|gal|kg|lbs)$/;
-
 function ConvertHandler() {
 	this.getNum = function (input) {
 		const str = input.toLowerCase();
-		const isInvalid = !!str.match(INVALID_FRACTION) || str.includes('//');
+		const isInvalid =
+			str.match(/\d+(\.\d*)?\/\d+(\.\d*)?\/\d+(\.\d*)?/) || str.includes('//');
 
-		// detect double-fraction
+		/// error handling
 		if (isInvalid) return 'invalid number';
 
-		const unit = str.match(VALID_UNIT)?.[0];
+		let result = '';
 
-		// detect invalid unit
-		if (!unit) return 'invalid unit';
+		// get numbers
+		for (let char of str) {
+			if (isNaN(+char) && char !== '.' && char !== '/') break;
 
-		const nums = str.split(unit)[0].split('/');
-		const num = nums[0] === '' ? 1 : +nums[0];
+			result += char;
+		}
 
-		if (nums.length === 1 && !isNaN(num)) return num;
-		if (nums.length === 1 && isNaN(num)) return 'invalid number';
-		if (nums.length > 1) return calcDivide(nums[0], nums[1]);
+		// assign default
+		if (result === '') return 1;
+
+		// handle fraction
+		if (result.includes('/')) {
+			const nums = result.split('/');
+
+			return calcDivide(nums[0], nums[1]);
+		}
+
+		return isNaN(+result) ? 'invalid number' : +result;
 	};
 
 	this.getUnit = function (input) {
-		const str = input.toLowerCase();
-		let result = str.match(VALID_UNIT)?.[0];
+		const units = new Map([
+			['km', 'km'],
+			['mi', 'mi'],
+			['l', 'L'],
+			['gal', 'gal'],
+			['kg', 'lbs'],
+		]);
+		const result = input.match(/[^\d]+$/)?.[0].toLowerCase();
 
-		if (!result) return 'invalid unit';
+		// error handling
+		if (!units.has(result)) return 'invalid unit';
 
-		return result === 'l' ? 'L' : result;
+		return units.get(result);
 	};
 
 	this.getReturnUnit = function (initUnit) {
-		let result;
+		const units = new Map([
+			['km', 'mi'],
+			['mi', 'km'],
+			['l', 'gal'],
+			['gal', 'L'],
+			['kg', 'lbs'],
+			['lbs', 'kg'],
+		]);
 
-		switch (initUnit.toLowerCase()) {
-			case 'km':
-				result = 'mi';
-				break;
-			case 'mi':
-				result = 'km';
-				break;
-			case 'l':
-				result = 'gal';
-				break;
-			case 'gal':
-				result = 'L';
-				break;
-			case 'kg':
-				result = 'lbs';
-				break;
-			case 'lbs':
-				result = 'kg';
-				break;
-			default:
-				result = 'invalid unit';
-		}
-
-		return result;
+		return units.get(initUnit.toLowerCase());
 	};
 
 	this.spellOutUnit = function (unit) {
-		let result;
+		const units = new Map([
+			['km', 'kilometers'],
+			['mi', 'miles'],
+			['l', 'liters'],
+			['gal', 'gallons'],
+			['kg', 'kilograms'],
+			['lbs', 'pounds'],
+		]);
 
-		switch (unit.toLowerCase()) {
-			case 'km':
-				result = 'kilometers';
-				break;
-			case 'mi':
-				result = 'miles';
-				break;
-			case 'l':
-				result = 'liters';
-				break;
-			case 'gal':
-				result = 'gallons';
-				break;
-			case 'kg':
-				result = 'kilograms';
-				break;
-			case 'lbs':
-				result = 'pounds';
-				break;
-			default:
-				result = 'invalid unit';
-		}
-
-		return result;
+		return units.get(unit.toLowerCase());
 	};
 
 	this.convert = function (initNum, initUnit) {
 		const galToL = 3.78541;
 		const lbsToKg = 0.453592;
 		const miToKm = 1.60934;
-		let result;
 
 		switch (initUnit.toLowerCase()) {
 			case 'km':
-				result = calcDivide(initNum, miToKm);
-				break;
+				return calcDivide(initNum, miToKm);
 			case 'mi':
-				result = calcMultiply(initNum, miToKm);
-				break;
+				return calcMultiply(initNum, miToKm);
 			case 'l':
-				result = calcDivide(initNum, galToL);
-				break;
+				return calcDivide(initNum, galToL);
 			case 'gal':
-				result = calcMultiply(initNum, galToL);
-				break;
+				return calcMultiply(initNum, galToL);
 			case 'kg':
-				result = calcDivide(initNum, lbsToKg);
-				break;
+				return calcDivide(initNum, lbsToKg);
 			case 'lbs':
-				result = calcMultiply(initNum, lbsToKg);
-				break;
+				return calcMultiply(initNum, lbsToKg);
 			default:
-				result = 'invalid';
+				return 'invalid number';
 		}
-
-		return result;
 	};
 
 	this.getString = function (initNum, initUnit, returnNum, returnUnit) {
 		const initUnitString = this.spellOutUnit(initUnit);
 		const returnUnitString = this.spellOutUnit(returnUnit);
 
-		let result = `${initNum} ${initUnitString} converts to ${returnNum} ${returnUnitString}`;
-
-		return result;
+		return `${initNum} ${initUnitString} converts to ${returnNum} ${returnUnitString}`;
 	};
 }
 
