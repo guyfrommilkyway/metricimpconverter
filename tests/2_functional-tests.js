@@ -42,8 +42,8 @@ suite('Functional Tests', function () {
 			.end(function (err, res) {
 				assert.equal(res.status, 400);
 				assert.equal(res.text, 'invalid number');
+				done();
 			});
-		done();
 	});
 	test('Convert an invalid number AND unit such as 3/7.2/4kilomegagram', function (done) {
 		chai
