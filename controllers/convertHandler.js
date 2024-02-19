@@ -36,7 +36,7 @@ function ConvertHandler() {
 	this.getReturnUnit = function (initUnit) {
 		let result;
 
-		switch (initUnit.match(UNIT_REGEX)) {
+		switch (initUnit.toLowerCase()) {
 			case 'km':
 				result = 'mi';
 				break;
@@ -65,7 +65,7 @@ function ConvertHandler() {
 	this.spellOutUnit = function (unit) {
 		let result;
 
-		switch (unit.match(UNIT_REGEX)) {
+		switch (unit.toLowerCase()) {
 			case 'km':
 				result = 'kilometers';
 				break;
@@ -97,14 +97,14 @@ function ConvertHandler() {
 		const miToKm = 1.60934;
 		let result;
 
-		switch (initUnit) {
+		switch (initUnit.toLowerCase()) {
 			case 'km':
 				result = calcDivide(initNum, miToKm);
 				break;
 			case 'mi':
 				result = calcMultiply(initNum, miToKm);
 				break;
-			case 'L':
+			case 'l':
 				result = calcDivide(initNum, galToL);
 				break;
 			case 'gal':
@@ -124,7 +124,10 @@ function ConvertHandler() {
 	};
 
 	this.getString = function (initNum, initUnit, returnNum, returnUnit) {
-		let result;
+		const initUnitString = this.spellOutUnit(initUnit);
+		const returnUnitString = this.spellOutUnit(returnUnit);
+
+		let result = `${initNum} ${initUnitString} converts to ${returnNum} ${returnUnitString}`;
 
 		return result;
 	};
