@@ -37,7 +37,8 @@ function ConvertHandler() {
 			['mi', 'mi'],
 			['l', 'L'],
 			['gal', 'gal'],
-			['kg', 'lbs'],
+			['kg', 'kg'],
+			['lbs', 'lbs'],
 		]);
 		const result = input.match(/[^\d]+$/)?.[0].toLowerCase();
 
