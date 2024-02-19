@@ -49,6 +49,9 @@ function ConvertHandler() {
 			case 'kg':
 				result = 'lbs';
 				break;
+			case 'lbs':
+				result = 'kg';
+				break;
 			default:
 				result = 'invalid unit';
 		}
