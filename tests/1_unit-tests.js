@@ -1,7 +1,6 @@
 const chai = require('chai');
 let assert = chai.assert;
 
-const { calcDivide, calcMultiply } = require('../utils/calc');
 const ConvertHandler = require('../controllers/convertHandler.js');
 
 let convertHandler = new ConvertHandler();
@@ -36,18 +35,12 @@ suite('Unit Tests', function () {
 		});
 
 		test('Should correctly read a fractional input with a decimal', function () {
-			assert.equal(
-				convertHandler.getNum('12.1/40.50kg'),
-				calcDivide(12.1, 40.5)
-			);
-			assert.equal(
-				convertHandler.getNum('50.50/100.50lbs'),
-				calcDivide(50.5, 100.5)
-			);
-			assert.equal(convertHandler.getNum('4.4/8.1gal'), calcDivide(4.4, 8.1));
-			assert.equal(convertHandler.getNum('1.12/4.40L'), calcDivide(1.12, 4.4));
-			assert.equal(convertHandler.getNum('4.5/5.78km'), calcDivide(4.5, 5.78));
-			assert.equal(convertHandler.getNum('1.8/7.1mi'), calcDivide(1.8, 7.1));
+			assert.equal(convertHandler.getNum('12.1/40.50kg'), 0.29877);
+			assert.equal(convertHandler.getNum('50.50/100.50lbs'), 0.50249);
+			assert.equal(convertHandler.getNum('4.4/8.1gal'), 0.54321);
+			assert.equal(convertHandler.getNum('1.12/4.40L'), 0.25455);
+			assert.equal(convertHandler.getNum('4.5/5.78km'), 0.77855);
+			assert.equal(convertHandler.getNum('1.8/7.1mi'), 0.25352);
 		});
 	});
 
@@ -106,28 +99,22 @@ suite('Unit Tests', function () {
 
 	suite('Converting input', function () {
 		test('Should correctly convert gal to L', function () {
-			assert.equal(
-				convertHandler.convert(50, 'gal'),
-				calcMultiply(50, 3.78541)
-			);
+			assert.equal(convertHandler.convert(50, 'gal'), 189.2705);
 		});
 		test('Should correctly convert L to gal', function () {
-			assert.equal(convertHandler.convert(50, 'L'), calcDivide(50, 3.78541));
+			assert.equal(convertHandler.convert(50, 'L'), 13.20861);
 		});
 		test('Should correctly convert mi to km', function () {
-			assert.equal(convertHandler.convert(50, 'mi'), calcMultiply(50, 1.60934));
+			assert.equal(convertHandler.convert(50, 'mi'), 80.467);
 		});
 		test('Should correctly convert km to mi', function () {
-			assert.equal(convertHandler.convert(50, 'km'), calcDivide(50, 1.60934));
+			assert.equal(convertHandler.convert(50, 'km'), 31.06864);
 		});
 		test('Should correctly convert lbs to kg', function () {
-			assert.equal(
-				convertHandler.convert(50, 'lbs'),
-				calcMultiply(50, 0.453592)
-			);
+			assert.equal(convertHandler.convert(50, 'lbs'), 22.6796);
 		});
 		test('Should correctly convert kg to lbs', function () {
-			assert.equal(convertHandler.convert(50, 'kg'), calcDivide(50, 0.453592));
+			assert.equal(convertHandler.convert(50, 'kg'), 110.23122);
 		});
 	});
 });
