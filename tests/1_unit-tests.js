@@ -45,6 +45,17 @@ suite('Unit Tests', function () {
 		});
 	});
 
+	suite('Reading unit input', function () {
+		test('Should correctly read each valid input unit', function () {
+			assert.equal(convertHandler.getUnit('12kg'), 'kg');
+			assert.equal(convertHandler.getUnit('77lbs'), 'lbs');
+			assert.equal(convertHandler.getUnit('50/100L'), 'L');
+			assert.equal(convertHandler.getUnit('10.50/50.75gal'), 'gal');
+			assert.equal(convertHandler.getUnit('40.23km'), 'km');
+			assert.equal(convertHandler.getUnit('1.5mi'), 'mi');
+		});
+	});
+
 	suite('Handling default value and errors', function () {
 		test('Should correctly return an error on a double-fraction', function () {
 			assert.equal(convertHandler.getNum('12/40/50km'), 'double-fraction');
