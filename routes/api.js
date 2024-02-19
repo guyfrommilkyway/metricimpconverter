@@ -7,10 +7,13 @@ module.exports = function (app) {
 	let convertHandler = new ConvertHandler();
 
 	app.get('/api/convert', (req, res) => {
-		// const result = convertHandler();
 		const { input } = req?.query;
 
-		console.log(input.match(/\d+(\.\d+)?\/\d+(\.\d+)?|\d+(\.\d+)?/g));
+		const num = convertHandler.getNum(input);
+		const unit = convertHandler.getUnit(input);
+
+		console.log('NUM: ', num);
+		console.log('UNIT: ', unit);
 
 		const initNum = 12;
 		const initUnit = 'kg';
