@@ -66,7 +66,7 @@ suite('Unit Tests', function () {
 		test('Should correctly return an error on a double-fraction', function () {
 			assert.equal(convertHandler.getNum('12/40/50km'), 'invalid number');
 			assert.equal(convertHandler.getNum('12.50/40.40/50mi'), 'invalid number');
-			assert.equal(convertHandler.getNum('12/40/50L'), 'invalid number');
+			assert.equal(convertHandler.getNum('sdfsdf12/40/50L'), 'invalid number');
 			assert.equal(convertHandler.getNum('12/40/50gal'), 'invalid number');
 			assert.equal(convertHandler.getNum('12/40/50kg'), 'invalid number');
 			assert.equal(convertHandler.getNum('12/40/50lbs'), 'invalid number');
