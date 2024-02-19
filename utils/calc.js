@@ -1,3 +1,4 @@
-const calc = (a, b) => parseFloat((a / b).toFixed(5));
+const calcMultiply = (a, b) => parseFloat((a * b).toFixed(5));
+const calcDivide = (a, b) => parseFloat((a / b).toFixed(5));
 
-module.exports = calc;
+module.exports = { calcMultiply, calcDivide };
