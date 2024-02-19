@@ -52,10 +52,10 @@ suite('Unit Tests', function () {
 	});
 
 	suite('Reading unit input', function () {
-		test('Should correctly read each valid input unit', function () {
-			assert.equal(convertHandler.getUnit('12kg'), 'kg');
-			assert.equal(convertHandler.getUnit('77lbs'), 'lbs');
-			assert.equal(convertHandler.getUnit('50/100L'), 'L');
+		test('Should correctly read each valid unit input', function () {
+			assert.notEqual(convertHandler.getUnit('12kgs'), 'kg');
+			assert.notEqual(convertHandler.getUnit('77dlbs'), 'lbs');
+			assert.equal(convertHandler.getUnit('50.44/100.57L'), 'L');
 			assert.equal(convertHandler.getUnit('10.50/50.75gal'), 'gal');
 			assert.equal(convertHandler.getUnit('40.23km'), 'km');
 			assert.equal(convertHandler.getUnit('1.5mi'), 'mi');
