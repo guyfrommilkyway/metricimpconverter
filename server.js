@@ -49,7 +49,7 @@ app.listen(port, function () {
 				console.log('Tests are not valid:');
 				console.error(e);
 			}
-		}, 10000);
+		}, 1500);
 	}
 });
 
