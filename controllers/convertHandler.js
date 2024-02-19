@@ -1,18 +1,18 @@
 const { calcMultiply, calcDivide } = require('../utils/calc');
 
 // constants
-const DOUBLE_FRACTION_REGEX = /\d+(\.\d+)?\/\d+(\.\d+)?\/\d+(\.\d+)?(?:\D+)?/g;
-const UNIT_REGEX = /(km|mi|l|gal|kg|lbs)$/;
+const INVALID_FRACTION = /\d+(\.\d*)?\/\d+(\.\d*)?\/\d+(\.\d*)?/;
+const VALID_UNIT = /(km|mi|l|gal|kg|lbs)$/;
 
 function ConvertHandler() {
 	this.getNum = function (input) {
 		const str = input.toLowerCase();
-		const isInvalid = !!str.match(DOUBLE_FRACTION_REGEX);
+		const isInvalid = !!str.match(INVALID_FRACTION) || str.includes('//');
 
 		// detect double-fraction
 		if (isInvalid) return 'invalid number';
 
-		const unit = str.match(UNIT_REGEX)?.[0];
+		const unit = str.match(VALID_UNIT)?.[0];
 
 		// detect invalid unit
 		if (!unit) return 'invalid unit';
@@ -27,7 +27,7 @@ function ConvertHandler() {
 
 	this.getUnit = function (input) {
 		const str = input.toLowerCase();
-		let result = str.match(UNIT_REGEX)?.[0];
+		let result = str.match(VALID_UNIT)?.[0];
 
 		if (!result) return 'invalid unit';
 
