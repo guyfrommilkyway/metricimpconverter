@@ -60,6 +60,28 @@ suite('Unit Tests', function () {
 			assert.equal(convertHandler.getUnit('40.23km'), 'km');
 			assert.equal(convertHandler.getUnit('1.5mi'), 'mi');
 		});
+		test('Should correctly return an error for an invalid input unit', function () {
+			assert.equal(convertHandler.getUnit('12kgs'), 'invalid unit');
+			assert.equal(convertHandler.getUnit('27skg'), 'invalid unit');
+			assert.equal(convertHandler.getUnit('400llbs'), 'invalid unit');
+			assert.equal(convertHandler.getUnit('198/200mit'), 'invalid unit');
+			assert.equal(convertHandler.getUnit('1.4kmm'), 'invalid unit');
+		});
+		test('Should return the correct unit for each valid input', function () {
+			assert.equal(convertHandler.getReturnUnit('km'), 'mi');
+			assert.equal(convertHandler.getReturnUnit('mi'), 'km');
+			assert.equal(convertHandler.getReturnUnit('l'), 'gal');
+			assert.equal(convertHandler.getReturnUnit('gal'), 'L');
+			assert.equal(convertHandler.getReturnUnit('kg'), 'lbs');
+			assert.equal(convertHandler.getReturnUnit('lbs'), 'kg');
+		});
+		test('Should correctly spelled-out string unit for each valid input', function () {
+			assert.equal(convertHandler.spellOutUnit('km'), 'kilometers');
+			assert.notEqual(convertHandler.spellOutUnit('mi', 'milesss'));
+			assert.equal(convertHandler.spellOutUnit('lbs'), 'pounds');
+			assert.equal(convertHandler.spellOutUnit('l'), 'liters');
+			assert.equal(convertHandler.spellOutUnit('gal'), 'gallons');
+		});
 	});
 
 	suite('Handling default value and errors', function () {
