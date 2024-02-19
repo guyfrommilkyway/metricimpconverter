@@ -31,9 +31,8 @@ function ConvertHandler() {
 
 	this.getReturnUnit = function (initUnit) {
 		let result;
-		const unit = initUnit.match(UNIT_REGEX);
 
-		switch (unit) {
+		switch (initUnit.match(UNIT_REGEX)) {
 			case 'km':
 				result = 'mi';
 				break;
@@ -61,9 +60,8 @@ function ConvertHandler() {
 
 	this.spellOutUnit = function (unit) {
 		let result;
-		const unit = unit.match(UNIT_REGEX);
 
-		switch (unit) {
+		switch (unit.match(UNIT_REGEX)) {
 			case 'km':
 				result = 'kilometers';
 				break;
