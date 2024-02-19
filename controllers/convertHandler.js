@@ -1,4 +1,4 @@
-const calc = require('../utils/calc');
+const { calcMultiply, calcDivide } = require('../utils/calc');
 
 // constants
 const UNIT_REGEX = /(km|mi|l|gal|kg|lbs)$/;
@@ -21,7 +21,7 @@ function ConvertHandler() {
 
 		if (nums.length === 1 && !isNaN(num)) return num;
 		if (nums.length === 1 && isNaN(num)) return 'invalid number';
-		if (nums.length > 1) return parseFloat((nums[0] / nums[1]).toFixed(5));
+		if (nums.length > 1) return calcDivide(nums[0], nums[1]);
 	};
 
 	this.getUnit = function (input) {
@@ -36,7 +36,7 @@ function ConvertHandler() {
 	this.getReturnUnit = function (initUnit) {
 		let result;
 
-		switch (initUnit.match(UNIT_REGEX)) {
+		switch (initUnit.toLowerCase()) {
 			case 'km':
 				result = 'mi';
 				break;
@@ -65,7 +65,7 @@ function ConvertHandler() {
 	this.spellOutUnit = function (unit) {
 		let result;
 
-		switch (unit.match(UNIT_REGEX)) {
+		switch (unit.toLowerCase()) {
 			case 'km':
 				result = 'kilometers';
 				break;
@@ -97,11 +97,37 @@ function ConvertHandler() {
 		const miToKm = 1.60934;
 		let result;
 
+		switch (initUnit.toLowerCase()) {
+			case 'km':
+				result = calcDivide(initNum, miToKm);
+				break;
+			case 'mi':
+				result = calcMultiply(initNum, miToKm);
+				break;
+			case 'l':
+				result = calcDivide(initNum, galToL);
+				break;
+			case 'gal':
+				result = calcMultiply(initNum, galToL);
+				break;
+			case 'kg':
+				result = calcDivide(initNum, lbsToKg);
+				break;
+			case 'lbs':
+				result = calcMultiply(initNum, lbsToKg);
+				break;
+			default:
+				result = 'invalid';
+		}
+
 		return result;
 	};
 
 	this.getString = function (initNum, initUnit, returnNum, returnUnit) {
-		let result;
+		const initUnitString = this.spellOutUnit(initUnit);
+		const returnUnitString = this.spellOutUnit(returnUnit);
+
+		let result = `${initNum} ${initUnitString} converts to ${returnNum} ${returnUnitString}`;
 
 		return result;
 	};

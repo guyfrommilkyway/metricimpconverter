@@ -9,23 +9,33 @@ module.exports = function (app) {
 	app.get('/api/convert', (req, res) => {
 		const { input } = req?.query;
 
-		const num = convertHandler.getNum(input);
-		const unit = convertHandler.getUnit(input);
+		const initNum = convertHandler.getNum(input);
+		const initUnit = convertHandler.getUnit(input);
 
-		console.log('NUM: ', num);
-		console.log('UNIT: ', unit);
+		if (initNum === 'invalid number' && initUnit === 'invalid unit')
+			res.status(400).json({ message: 'invalid number and unit' });
 
-		const initNum = 12;
-		const initUnit = 'kg';
-		const returnNum = 12;
-		const returnUnit = 'lbs';
+		if (initNum === 'invalid number')
+			res.status(400).json({ message: 'invalid number' });
+
+		if (initUnit === 'invalid unit')
+			res.status(400).json({ message: 'invalid unit' });
+
+		const returnNum = convertHandler.convert(+initNum, initUnit);
+		const returnUnit = convertHandler.getReturnUnit(initUnit);
+		const string = convertHandler.getString(
+			initNum,
+			initUnit,
+			returnNum,
+			returnUnit
+		);
 
 		res.status(200).json({
 			initNum,
 			initUnit,
 			returnNum,
 			returnUnit,
-			string: `${initNum} ${initUnit} converts to ${returnNum} ${returnUnit}`,
+			string,
 		});
 	});
 };
