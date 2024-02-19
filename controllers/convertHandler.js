@@ -58,6 +58,30 @@ function ConvertHandler() {
 
 	this.spellOutUnit = function (unit) {
 		let result;
+		const unit = unit.match(UNIT_REGEX);
+
+		switch (unit) {
+			case 'km':
+				result = 'kilometers';
+				break;
+			case 'mi':
+				result = 'miles';
+				break;
+			case 'l':
+				result = 'liters';
+				break;
+			case 'gal':
+				result = 'gallons';
+				break;
+			case 'kg':
+				result = 'kilograms';
+				break;
+			case 'lbs':
+				result = 'pounds';
+				break;
+			default:
+				result = 'invalid unit';
+		}
 
 		return result;
 	};
